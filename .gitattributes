@@ -1,1 +1,2 @@
 SourceHanSansSC-Bold.otf filter=lfs diff=lfs merge=lfs -text
+python_chinese/SourceHanSansSC-Bold.otf filter=lfs diff=lfs merge=lfs -text
