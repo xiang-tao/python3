@@ -17,10 +17,10 @@ x = np.zeros(n)
 for i in range(n - 2):
     m = ((i + 1) * h - 1)
     b[i + 1] = h * h * (4 * m ** 4 - 14 * m ** 2 + 4) * np.e ** (-m ** 2)
-    # print(b[i+1])
+print(b)
 
 x1, list_times, list_err_norm, err = tools.csrjacobi(data,indices,indptr, x, b, 10000, 10 ** (-8))
-# print(x1)
+# print(x[0])
 
 # 画图
 x2 = np.linspace(-1, 1, n)
