@@ -62,15 +62,15 @@ surf = ax.plot_surface(X, Y, Z, rstride=1, cstride=1, cmap=cm.rainbow)
 ax.set_zlim(-1.01, 1.01) # 限制z轴的范围 xlim限制x轴，ylim限制y轴
 # ax.zaxis.set_major_locator(LinearLocator(10)) # 将z轴平均分10段，显示10个刻度
 # A StrMethodFormatter is used automatically
-# ax.zaxis.set_major_formatter('{x:.02f}')
+ax.zaxis.set_major_formatter('{x:.02f}')
 
 # Add a color bar which maps values to colors.
 # 在图形旁边增加一个竖着的框，显示不同颜色对应的数据大小
 fig.colorbar(surf, shrink=0.5, aspect=5)
 
-# 显示图形对应的登高线图
+# 显示图形对应的等高线图
 # zidr='z'表示与z轴垂直的登高线图，即从z轴上方上往下看，同理可以有x　y轴方向的zidr='x' ,zidr='y'
-# offset=-1,若是与z轴垂直的当高线，则表示在z=-1处显示登高线图
+# offset=-1,若是与z轴垂直的等高线，则表示在z=-1处显示登高线图
 # cmap=cm.rainbow:表示彩虹色
 ax.contourf(X, Y, Z, zdir='z', offset=-1, cmap=cm.rainbow)
 
@@ -78,12 +78,12 @@ ax.contourf(X, Y, Z, zdir='z', offset=-1, cmap=cm.rainbow)
 # fname 为 你下载的字体库路径，注意 SourceHanSansSC-Bold.otf 字体的路径
 # 注意使用时候要在后面加　fontproperties=zhfont1，例如：ax.set_title("Title 标题",fontproperties=zhfont1)
 zhfont1 = matplotlib.font_manager.FontProperties\
-    (fname="/home/xt/PycharmProjects/python_chinese/SourceHanSansSC-Bold.otf")
+    (fname="/home/xt/github/python3/python-chinese/SourceHanSansSC-Bold.otf")
 
 # 加标题和轴标签，使用：fontsize=20(any number)可以改变标签字体大小
-ax.set_xlabel('X 空间', fontsize=20)
-ax.set_ylabel('Y 时间')
-ax.set_zlabel('Z 温度')
+ax.set_xlabel('X ', fontsize=20)
+ax.set_ylabel('Y ')
+ax.set_zlabel('Z ')
 ax.set_title("Title 标题",fontproperties=zhfont1, fontsize=20)
 # fig.suptitle('test title', fontsize=20) # 这样也可以加标题，但当图片放大后标题位置不太美观
 

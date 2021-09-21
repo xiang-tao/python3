@@ -1,7 +1,6 @@
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 
-
 x, y = [], []
 x1, y1 = [], []
 
@@ -35,6 +34,8 @@ for i in range(len(xx)):
 fig, ax = plt.subplots()
 xdata, ydata = [], []
 ln, = ax.plot([], [], 'r--', animated=True)
+
+
 # ln, = plt.plot([], [], 'r--', animated=True),这里ax.plot和plt.plot经测试效果一样
 
 def init():

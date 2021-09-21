@@ -13,12 +13,15 @@ for j in range(8):
 
 fig, ax = plt.subplots()
 xdata, ydata = [], []
-ln, = plt.plot([], [], 'ro',animated=True)
+ln, = plt.plot([], [], 'r--',animated=True)
 
 
 def init():
     ax.set_xlim(-np.pi,np.pi)
     ax.set_ylim(-1, 4)
+    ax.set_xlabel('X')
+    ax.set_ylabel('Y')
+    ax.set_title('vary_times')
     return ln,
 
 
