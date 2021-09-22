@@ -2,8 +2,10 @@ import xt_pde_matrix as matrix
 import xt_pde_tools as tools
 import numpy as np
 import matplotlib.pyplot as plt
+import matplotlib.animation as animation
 from matplotlib import cm
 import matplotlib
+
 """
 向后差分格式求解一维抛物方程代码
 """
@@ -25,6 +27,8 @@ u0 = np.zeros(n)
 u1 = np.zeros(n)
 # err = np.zeros(times)
 B = np.zeros((t + 2, n))
+list = []
+sublist = []
 r = tau / (h ** 2)
 
 hx = 0
@@ -36,31 +40,49 @@ matrix.back_diff(A, n, r)
 matrix.csrmatrix(A, data, indices, indptr)
 for i in range(n):
     B[0][i] = u0[i]
-
+    sublist.append(u0[i])
+list.append(sublist)
 for i in range(t + 1):
     tools.csrjacobi(data, indices, indptr, u1, u0, times, tol)
+    sublist = []
     for k in range(n):
         u0[k] = u1[k]
+        sublist.append(u0[k])
         B[i + 1][k] = u0[k]
+    list.append(sublist)
+xlist = np.arange(h, 1, h)
 
-# 画数值解图
-fig, ax = plt.subplots(subplot_kw={"projection": "3d"})
-# Make data.
-X = np.arange(h, 1, h)
-Y = np.arange(0, 0.1 + tau, tau)
-X, Y = np.meshgrid(X, Y)
-R = X ** 0 + Y ** 0 - 2
-Z = R + B
+fig, ax = plt.subplots()
+xdata, ydata = [], []
+ln, = plt.plot([], [], 'r--')
 
-surf = ax.plot_surface(X, Y, Z, rstride=1, cstride=1, cmap=cm.rainbow)
-fig.colorbar(surf, shrink=0.4, aspect=6)
-ax.set_zlim(-1, 1)
-ax.contourf(X, Y, Z, zdir='z', offset=-1, cmap=cm.rainbow)
-zhfont1 = matplotlib.font_manager.FontProperties\
-    (fname="/home/xt/github/python3/python-chinese/SourceHanSansSC-Bold.otf")
-# 加标题和轴标签，使用：fontsize=20(any number)可以改变标签字体大小
-ax.set_xlabel('X 空间', fontproperties=zhfont1)
-ax.set_ylabel('Y 时间', fontproperties=zhfont1)
-ax.set_zlabel('Z 温度', fontproperties=zhfont1)
-ax.set_title("Title h=1/60 tau=1/600", fontproperties=zhfont1, fontsize=20)
+
+def init():
+    ax.set_xlim(0, 1.1)
+    ax.set_ylim(0, 1)
+    ax.set_xlabel('X')
+    ax.set_ylabel('Y')
+    ax.set_title('vary_times')
+
+    return ln,
+
+
+def update(i):
+    xdata = xlist
+    ydata = list[i]
+    ln.set_data(xdata, ydata)
+    # 有时候这个text在该函数下不起作用，
+    # 那么需要将animation.FuncAnimation中的参数blit=True去除，
+    # 或者把该text放到init函数下，或者放在函数外面，但是这样无法
+    # 达到动态的效果，具体不起作用原因原因我也不清楚
+    time_text.set_text("Times: %.3f" % (tau * i))
+    return ln,
+
+
+time_text = ax.text(0.4, 0.6, "", transform=ax.transAxes,
+                    fontsize=15, color='red')
+
+anim = animation.FuncAnimation(fig, update, frames=len(list), interval=50,
+                               init_func=init)
 plt.show()
+

@@ -7,6 +7,7 @@ list = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
 
 fig, ax = plt.subplots(subplot_kw={"projection": "3d"})
 
+ax.set_zlim(-2, 2)
 
 def update(i, fig):
     X = np.arange(-5, 5, 0.25)
@@ -21,12 +22,13 @@ def update(i, fig):
         surf = fig.axes[0].plot_surface(X, Y, Z, cmap=cm.coolwarm, linewidth=0, antialiased=False)
     else:
         surf = fig.axes[0].plot_surface(X, Y, Z, cmap=cm.coolwarm, linewidth=0, antialiased=False)
-    ax.set_zlim(-1.5, 1.5)
     ax.set_title('vary_times' + list[i])
     fig.canvas.draw()
+    time_text.set_text("Times: %.1f" % (0.5 * i))
     return surf,
 
-
-anim = animation.FuncAnimation(fig, update, fargs=[fig], frames=10, interval=1000, blit=True)
+time_text = ax.text(0, 0, 0, "", transform=ax.transAxes,
+                     fontsize=15, color='red')
+anim = animation.FuncAnimation(fig, update, fargs=[fig], frames=10, interval=500, blit=True)
 # anim.save('3d_vary.gif', writer='imagemagick')
 plt.show()

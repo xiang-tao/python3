@@ -4,7 +4,7 @@ import matplotlib.animation as animation
 
 fig, ax = plt.subplots()
 xdata, ydata = [], []
-ln, = plt.plot([], [], 'ro', animated=True)
+ln, = plt.plot([], [], 'ro', label="test", animated=True)
 
 
 def init():

@@ -26,35 +26,32 @@ del y1[0]
 xx1 = list(map(float, x1))
 yy1 = list(map(float, y1))
 
-# 这里num是一种策略，方便画动态图
-num = []
-for i in range(len(xx)):
-    num.append(i)
-
 fig, ax = plt.subplots()
 xdata, ydata = [], []
-ln, = ax.plot([], [], 'r--', animated=True)
+xdata1, ydata1 = [], []
 
-
-# ln, = plt.plot([], [], 'r--', animated=True),这里ax.plot和plt.plot经测试效果一样
-
-def init():
-    ax.set_xlim(-1.1, 1.1)
-    ax.set_ylim(0, 1)
-    return ln,
+ax.set_xlim(-1.1, 1.1)
+ax.set_ylim(0, 1)
+ax.set_xlabel("X")
+ax.set_ylabel("Y")
+ax.set_title("many animation lines")
 
 
 def update(i):
     xdata.append(xx[i])
     ydata.append(yy[i])
-    ln.set_data(xdata, ydata)
-    return ln,
+    xdata1.append(xx1[i])
+    ydata1.append(yy1[i])
+    # ln.set_data(xdata, ydata)
+    # 动画保存标签的方式如下，注意细节，在l,以及[0]，否则报错
+    l, = ax.plot(xdata, ydata, 'r--', label="result")
+    k = ax.plot(xdata1, ydata1, 'blue', label="real")[0]
+    ax.legend([l, k], [l.get_label(), k.get_label()], loc=0)
 
 
-anim = animation.FuncAnimation(fig, update, frames=num, interval=40,
-                               init_func=init, blit=True)
+anim = animation.FuncAnimation(fig, update, frames=len(xx), interval=40)
 
-# anim.save('test_animation.gif',writer='imagemagick')
+# anim.save('many_lines_animation.gif',writer='imagemagick')
 plt.show()
 
 # plt.plot(xx, yy, color='red', linewidth=2, linestyle='--', label='Solve the image')
