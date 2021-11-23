@@ -2,7 +2,7 @@ import numpy as np
 from fealpy.mesh import MeshFactory as MF
 import matplotlib.pyplot as plt
 
-box2d = [0, 1, 0, 1]
+box2d = [0, 1, 0, 1]  # 指定x与y的最大最小值
 
 # mesh = MF.boxmesh2d(box2d, nx=10, ny=10, meshtype='tri')
 # mesh = MF.boxmesh2d(box2d, nx=10, ny=10, meshtype='quad')

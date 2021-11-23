@@ -39,7 +39,7 @@ def jacobi(a, x, b, times, tol):
         # print(err_norm)
         if err_norm < tol:
             break
-    return x, list_times, list_err_norm, err
+    return x  # list_times, list_err_norm, err
 
 
 def csrjacobi(data, indices, indptr,  x, b, times, tol):

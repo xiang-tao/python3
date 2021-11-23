@@ -1,16 +1,21 @@
-# This is a sample Python script.
-
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
-
-
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+import numpy as np
+import frogpy.algebra.matrix as matrix
+a = matrix.tri_diagonal(4, 2, 2, 1)
+print(a)
 
 
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
+def test(a, b):
+    """
+    :param a:integer
+    :param b:integer
+    """
+    c = a+b
+    print(c)
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+
+a = 3
+b = 4
+test(a, b)
+
+print(np.pi)
+print("hello")

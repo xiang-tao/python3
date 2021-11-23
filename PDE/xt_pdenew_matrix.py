@@ -8,7 +8,7 @@ def Maindiagonal(n, r):
     :param r: 对角线元素
     :return: 一个对角矩阵
     """
-    a = np.zeros((n,n))
+    a = np.zeros((n, n))
     for i in range(n):
         a[i][i] = r
     return a
@@ -24,12 +24,12 @@ def tri_diagonal(n, r1, r2, r3):
     :param r3: 次下对角元素
     :return: 对称正定的矩阵(或者说是三对角矩阵)
     """
-    a = np.zeros((n,n))
+    a = np.zeros((n, n))
     for i in range(n):
         if i == 0:
             a[i][i] = r1
-            a[i][i+1] = r2
-        elif i == n-1:
+            a[i][i + 1] = r2
+        elif i == n - 1:
             a[i][i] = r1
             a[i][i - 1] = r3
         else:
@@ -49,18 +49,18 @@ def M_tri_diagonal(nx, ny, b1, b2, b3):
     :param b3: 次下对角块矩阵
     :return: 一个五带的对称正定矩阵
     """
-    N = nx*ny
-    a = np.zeros((N,N))
+    N = nx * ny
+    a = np.zeros((N, N))
     for i in range(nx):
         if i == 0:
-            a[0:ny,0:ny] = b1
-            a[0:ny,ny:2*ny] = b2
-        elif i == nx-1:
-            a[N-ny:N, N-ny:N] = b1
-            a[N-ny:N, N-2*ny:N-ny] = b3
+            a[0:ny, 0:ny] = b1
+            a[0:ny, ny:2 * ny] = b2
+        elif i == nx - 1:
+            a[N - ny:N, N - ny:N] = b1
+            a[N - ny:N, N - 2 * ny:N - ny] = b3
         else:
-            a[i*ny:(i+1)*ny,i*ny:(i+1)*ny] = b1
-            a[i*ny:(i+1)*ny, (i+1)*ny:(i+2)*ny] = b2
+            a[i * ny:(i + 1) * ny, i * ny:(i + 1) * ny] = b1
+            a[i * ny:(i + 1) * ny, (i + 1) * ny:(i + 2) * ny] = b2
             a[i * ny:(i + 1) * ny, (i - 1) * ny:i * ny] = b3
     return a
 
@@ -95,3 +95,33 @@ def csrmatrix(A, data, indices, indptr):
                 indices.append(j)
                 k += 1
         indptr.append(k)
+
+
+def fill_diag(A, arr, diag):
+    i = 0
+    j = 0
+    if diag >= 0:
+        j += diag
+        for j in range(j, A.shape[1]):
+            A[i][j] = arr[i]
+            i += 1
+    else:
+        i += abs(diag)
+        for i in range(i, A.shape[0]):
+            A[i][j] = arr[j+abs(diag)]
+            j += 1
+
+
+def f_fill_diag(A, arr, diag, num):  #
+    k = num
+    if diag == -1:
+        del (arr[0])
+        fill_diag(A, arr, diag)
+        for i in range(int(A.shape[0]/num)-1):
+            A[k][k-1] = 0
+            k += num
+    if diag == 1:
+        fill_diag(A, arr, diag)
+        for i in range(int(A.shape[0]/num)-1):
+            A[k-1][k] = 0
+            k += num
