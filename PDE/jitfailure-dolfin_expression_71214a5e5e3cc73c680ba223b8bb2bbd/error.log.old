@@ -1,0 +1,10 @@
+/tmp/tmpqzbqdi_e/dolfin_expression_71214a5e5e3cc73c680ba223b8bb2bbd.cpp: In member function ‘virtual void dolfin::dolfin_expression_71214a5e5e3cc73c680ba223b8bb2bbd::eval(Eigen::Ref<Eigen::Matrix<double, -1, 1> >, Eigen::Ref<const Eigen::Matrix<double, -1, 1> >) const’:
+/tmp/tmpqzbqdi_e/dolfin_expression_71214a5e5e3cc73c680ba223b8bb2bbd.cpp:61:25: error: ‘kk’ was not declared in this scope
+   61 |           values[0] = 1-kk*x[0]*sin(angle1)-kk*x[1]*sin(angle2);
+      |                         ^~
+/tmp/tmpqzbqdi_e/dolfin_expression_71214a5e5e3cc73c680ba223b8bb2bbd.cpp:61:37: error: ‘angle1’ was not declared in this scope
+   61 |           values[0] = 1-kk*x[0]*sin(angle1)-kk*x[1]*sin(angle2);
+      |                                     ^~~~~~
+/tmp/tmpqzbqdi_e/dolfin_expression_71214a5e5e3cc73c680ba223b8bb2bbd.cpp:61:57: error: ‘angle2’ was not declared in this scope
+   61 |           values[0] = 1-kk*x[0]*sin(angle1)-kk*x[1]*sin(angle2);
+      |                                                         ^~~~~~

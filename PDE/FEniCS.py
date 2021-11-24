@@ -10,9 +10,9 @@ import dolfin
 import mshr
 dolfin.parameters["reorder_dofs_serial"] = False
 dolfin.parameters["allow_extrapolation"] = True
-N1 = N2 = 75
+N1 = N2 = 50
 mesh = dolfin.RectangleMesh(dolfin.Point(0,0),dolfin.Point(1,1),N1,N2)
-showmesh = dolfin.RectangleMesh(dolfin.Point(0,0),dolfin.Point(1,1),10,10)
+# showmesh = dolfin.RectangleMesh(dolfin.Point(0,0),dolfin.Point(1,1),10,10)
 V = dolfin.FunctionSpace(mesh, 'Lagrange', 1)
 u = dolfin.TrialFunction(V)
 v = dolfin.TestFunction(V)
@@ -51,22 +51,22 @@ fig.colorbar(cp)
 fig1, ax1 = plt.subplots(subplot_kw={"projection": "3d"})
 surf = ax1.plot_surface(X, Y, u_mat1, cmap=cm.rainbow)
 
-xx = X
-yy = Y
-data = u_mat1
-
-xx = xx.transpose()
-xx = xx.reshape(xx.shape[0] * xx.shape[1], )
-
-yy = yy.transpose()
-yy = yy.reshape(yy.shape[0] * yy.shape[1], )
-
-zz = data.transpose()
-zz = zz.reshape(data.shape[0] * data.shape[1], )
-
-data1 = np.array([xx, yy, zz])
-
-data1 = data1.transpose()
+# xx = X
+# yy = Y
+# data = u_mat1
+#
+# xx = xx.transpose()
+# xx = xx.reshape(xx.shape[0] * xx.shape[1], )
+#
+# yy = yy.transpose()
+# yy = yy.reshape(yy.shape[0] * yy.shape[1], )
+#
+# zz = data.transpose()
+# zz = zz.reshape(data.shape[0] * data.shape[1], )
+#
+# data1 = np.array([xx, yy, zz])
+#
+# data1 = data1.transpose()
 
 # np.savetxt('/home/xt/github/python3/PDE/cmp.plt', np.c_[data1],
 #            fmt='%.16f', delimiter='\t')

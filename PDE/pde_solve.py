@@ -29,10 +29,14 @@ I = np.broadcast_to(cell2dof[:, :, None], shape=A.shape)
 J = np.broadcast_to(cell2dof[:, None, :], shape=A.shape)
 A = csr_matrix((A.flat, (I.flat, J.flat)), shape=(gdof, gdof))
 
+# A = space.stiff_matrix(c=pde.h_function)
+
 F = space.source_vector(pde.source)
 bc = DirichletBC(space, pde.dirichlet)
 A, F = bc.apply(A, F, uh)
 uh[:] = spsolve(A, F)
+print(max(uh))
+print(min(uh))
 errorl = space.integralalg.L2_error(pde.solution, uh.value)
 print(errorl)
 

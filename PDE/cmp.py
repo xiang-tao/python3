@@ -12,14 +12,15 @@ sin = np.sin
 cos = np.cos
 pi = np.pi
 
-ww = 5.0 * pi / 3.0  # 50.0  # ----------------------------------------晶片的角速度
-wp = 10.0 * pi / 3.0  # 100.0  # ----------------------------------------抛光垫的角速度
+# 请注意r/s单位不是国际单位，应换算成弧度每秒，而一转的弧度是2*pi，故需要乘2*pi
+ww = 50.0/60*2*pi*1  # ----------------------------------------晶片的角速度
+wp = 100.0/60*2*pi*1  # ----------------------------------------抛光垫的角速度
 angle1 = 0.02 * pi / 180  # ---------------------------转角
 angle2 = 0.018 * pi / 180  # ---------------------------倾角
-d = 150000.0  # ---------------------------晶片和抛光垫的旋转中心距
-r0 = 50000.0
-p0 = 101000
-hpiv = 80.0  # ----------------------------------------晶片中心高度
+d = 0.15  # ---------------------------晶片和抛光垫的旋转中心距
+r0 = 5.0*1e-2
+p0 = 101000.0
+hpiv = 8.0*1e-5  # ----------------------------------------晶片中心高度
 viscosity = 0.00214  # ---------------------------抛光液粘度
 
 xx = r0 / hpiv
@@ -135,7 +136,7 @@ for i in range(1, r_in.size):
 b[0] = sumb()
 
 for i in range(n_in-len(theta_in), n_in):
-    f[i] = D_n[i-1]
+    f[i] = Dn[i-1]
 
 
 matrix.fill_diag(A, D0, 0)
@@ -167,8 +168,6 @@ B[1:B.shape[0], 1:B.shape[1]] = A
 
 rb = b - f
 rx = linalg.solve(B, rb)
-print(max(rx))
-print(min(rx))
 
 k = 1
 for j in range(1, r.size-1):
@@ -176,8 +175,11 @@ for j in range(1, r.size-1):
         data[i][j] = rx[k]
         k += 1
 data[:, 0] = rx[0]
-data[:, data.shape[1]-1] = 1
+data[:, data.shape[1]-1] = 1.0
 data[data.shape[0]-1,:] = data[0, :]
+
+print(data.max())
+print(data.min())
 
 X, Y = np.meshgrid(r, theta)
 
@@ -185,24 +187,33 @@ fig, ax = plt.subplots(subplot_kw=dict(projection='polar'))
 surf = ax.contourf(Y, X, data, cmap=cm.rainbow)
 fig.colorbar(surf)
 
+X1, Y1 = np.meshgrid(np.linspace(0,1,nr+1), np.linspace(0,2*pi,n_theta+1))
+xx1 = X1 * np.cos(Y1)
+yy1 = X1 * np.sin(Y1)
+fig1, ax1 = plt.subplots()
+surf1 = ax1.pcolor(xx1, yy1, data, cmap=cm.rainbow)
+fig1.colorbar(surf1)
 
-xx = X * np.cos(Y)
-yy = X * np.sin(Y)
+# xx = X * np.cos(Y)
+# yy = X * np.sin(Y)
+# fig2, ax2 = plt.subplots(subplot_kw={"projection": "3d"})
+# surf2 = ax2.plot_surface(xx, yy, data, cmap=cm.rainbow)
 
-xx = xx.transpose()
-xx = xx.reshape(xx.shape[0] * xx.shape[1], )
 
-yy = yy.transpose()
-yy = yy.reshape(yy.shape[0] * yy.shape[1], )
+# xx = xx.transpose()
+# xx = xx.reshape(xx.shape[0] * xx.shape[1], )
+#
+# yy = yy.transpose()
+# yy = yy.reshape(yy.shape[0] * yy.shape[1], )
+#
+# zz = data.transpose()
+# zz = zz.reshape(data.shape[0] * data.shape[1], )
+#
+# data1 = np.array([xx, yy, zz])
+#
+# data1 = data1.transpose()
 
-zz = data.transpose()
-zz = zz.reshape(data.shape[0] * data.shape[1], )
-
-data1 = np.array([xx, yy, zz])
-
-data1 = data1.transpose()
-
-# np.savetxt('/home/xt/github/python3/file_and_animation/matrix.plt', np.c_[data1],
+# np.savetxt('/home/xt/github/python3/file_and_animation/cmpdata_64.plt', np.c_[data1],
 #            fmt='%.16f', delimiter='\t')
 
 plt.show()
