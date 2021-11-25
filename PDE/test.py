@@ -12,8 +12,9 @@ sin = np.sin
 cos = np.cos
 pi = np.pi
 
-ww = 50.0/60*2*pi*1  # ----------------------------------------晶片的角速度
-wp = 100/60*2*pi*1  # ----------------------------------------抛光垫的角速度
+# 请注意r/s单位不是国际单位，应换算成弧度每秒，而一转的弧度是2*pi，故需要乘2*pi
+ww = 50.0/60*2*pi  # ----------------------------------------晶片的角速度
+wp = 100.0/60*2*pi  # ----------------------------------------抛光垫的角速度
 angle1 = 0.02 * pi / 180  # ---------------------------转角
 angle2 = 0.018 * pi / 180  # ---------------------------倾角
 d = 0.15  # ---------------------------晶片和抛光垫的旋转中心距
@@ -28,8 +29,8 @@ aa = 6 * viscosity * wp / p0 * xx ** 2
 dd = d / r0
 ee = ww / wp
 
-nr = 32
-n_theta = 32
+nr = 64
+n_theta = 64
 r = np.linspace(0, 1, nr)
 hr = 1 / (nr - 1)
 theta = np.linspace(0, 2 * pi, n_theta)
@@ -108,112 +109,34 @@ def f2(ri, tj):
     return aa*(dd*cos(theta_in[tj])+r_in[ri]+r_in[ri]*ee)*dh_theta(ri, tj)
 
 
-def suma():
-    summ = 0
-    for j in range(len(theta_in)):
-        summ += hhh(1, j)
-    return summ
+def duiliuf1(ri, tj):
+    return 6*rho*r0**2*wp**2/p0*r_in[ri]*(r_in[ri]+dd*cos(theta_in[tj]))*h_function(ri, tj)**2*dh_r(tj)
 
 
-def sumb():
-    summ = 0
-    for j in range(len(theta_in)):
-        summ += sin(theta_in[j])*h_function(1, j)
-    return -aa*dd*hr*summ
+def duiliuf2(ri, tj):
+    return -3*ee**2*rho*r0**2*wp**2/p0*r_in[ri]**2*h_function(ri, tj)**2*dh_r(tj)
 
 
-k = 0
-for i in range(1, r_in.size):
-    for j in range(theta_in.size):
-        D0[k] = c2(i, j) / hr ** 2 + c5(i, j) / r_in[i] / h_theta ** 2
-        D1[k] = -c4(i, j) / r_in[i] / h_theta ** 2
-        D_1[k] = -c6(i, j) / r_in[i] / h_theta ** 2
-        Dn[k] = -c1(i, j) / hr ** 2
-        D_n[k] = -c3(i, j) / hr ** 2
-        b[k+1] = -f1(i, j) - f2(i, j)
-        k += 1
-
-b[0] = sumb()
-
-for i in range(n_in-len(theta_in), n_in):
-    f[i] = Dn[i-1]
+def duiliuf3(ri, tj):
+    return -6*dd*rho*r0**2*wp**2/p0*h_function(ri, tj)**2*sin(theta_in[tj])*dh_theta(ri, tj)
 
 
-matrix.fill_diag(A, D0, 0)
-matrix.fill_diag(A, D1, 1)
-matrix.fill_diag(A, D_1, -1)
-matrix.fill_diag(A, D_n, -theta_in.size)
-matrix.fill_diag(A, Dn, theta_in.size)
-
-for i in range(n_in-1):
-    if i % len(theta_in) == 0:
-        if i == 0:
-            A[i][i+len(theta_in)-1] = D_1[i]
-        else:
-            A[i][i+len(theta_in)-1] = A[i][i-1]
-            A[i][i - 1] = 0
-    if (i+1) % len(theta_in) == 0:
-        if i == n_in - 2:
-            A[i][i - len(theta_in) + 1] = D1[i]
-        else:
-            A[i][i - len(theta_in + 1) + 1] = A[i][i + 1]
-            A[i][i + 1] = 0
+def duiliuf4(ri, tj):
+    return -2*rho*r0**2*wp**2*hhh(ri, tj)/p0*(2*r_in[ri]+dd*cos(theta_in[tj]))
 
 
-B[0][0] = suma()
-for j in range(len(theta_in)):
-    B[0][j+1] = -hhh(1, j)
-    B[j+1][0] = D_n[j]
-B[1:B.shape[0], 1:B.shape[1]] = A
-
-rb = b - f
-rx = linalg.solve(B, rb)
-
-k = 1
-for j in range(1, r.size-1):
-    for i in range(theta.size-1):
-        data[i][j] = rx[k]
-        k += 1
-data[:, 0] = rx[0]
-data[:, data.shape[1]-1] = 1.0
-data[data.shape[0]-1,:] = data[0, :]
-
-print(data.max())
-print(data.min())
-
-X, Y = np.meshgrid(r, theta)
-
-fig, ax = plt.subplots(subplot_kw=dict(projection='polar'))
-surf = ax.contourf(Y, X, data, cmap=cm.rainbow)
-fig.colorbar(surf)
-
-X1, Y1 = np.meshgrid(np.linspace(0,1,nr+1), np.linspace(0,2*pi,n_theta+1))
-xx1 = X1 * np.cos(Y1)
-yy1 = X1 * np.sin(Y1)
-fig1, ax1 = plt.subplots()
-surf1 = ax1.pcolor(xx1, yy1, data, cmap=cm.rainbow)
-fig1.colorbar(surf1)
-
-# xx = X * np.cos(Y)
-# yy = X * np.sin(Y)
-# fig2, ax2 = plt.subplots(subplot_kw={"projection": "3d"})
-# surf2 = ax2.plot_surface(xx, yy, data, cmap=cm.rainbow)
+def duiliuf5(ri, tj):
+    return -2*ee**2*rho*r0**2*wp**2*r_in[ri]*hhh(ri, tj)/p0
 
 
-# xx = xx.transpose()
-# xx = xx.reshape(xx.shape[0] * xx.shape[1], )
-#
-# yy = yy.transpose()
-# yy = yy.reshape(yy.shape[0] * yy.shape[1], )
-#
-# zz = data.transpose()
-# zz = zz.reshape(data.shape[0] * data.shape[1], )
-#
-# data1 = np.array([xx, yy, zz])
-#
-# data1 = data1.transpose()
+def duiliuf6(ri, tj):
+    return -2*dd*rho*r0**2*wp**2/p0*hhh(ri, tj)*cos(theta_in[tj])
 
-# np.savetxt('/home/xt/github/python3/file_and_animation/cmpdata_64.plt', np.c_[data1],
-#            fmt='%.16f', delimiter='\t')
 
-plt.show()
+def duiliuf(ri, tj):
+    return duiliuf1(ri, tj)+duiliuf2(ri, tj)+duiliuf3(ri, tj) \
+           + duiliuf4(ri, tj)+duiliuf5(ri, tj)+duiliuf6(ri, tj)
+
+
+print(duiliuf(30, 30))
+print(f1(30, 30)+f2(30,30))

@@ -13,14 +13,14 @@ cos = np.cos
 pi = np.pi
 
 # 请注意r/s单位不是国际单位，应换算成弧度每秒，而一转的弧度是2*pi，故需要乘2*pi
-ww = 50.0/60*2*pi  # ----------------------------------------晶片的角速度
-wp = 100/60*2*pi  # ----------------------------------------抛光垫的角速度
+ww = 50.0 / 60 * 2 * pi * 1  # ----------------------------------------晶片的角速度
+wp = 100.0 / 60 * 2 * pi * 1  # ----------------------------------------抛光垫的角速度
 angle1 = 0.02 * pi / 180  # ---------------------------转角
 angle2 = 0.018 * pi / 180  # ---------------------------倾角
 d = 0.15  # ---------------------------晶片和抛光垫的旋转中心距
-r0 = 5.0*1e-2
+r0 = 5.0 * 1e-2
 p0 = 101000.0
-hpiv = 8.0*1e-5  # ----------------------------------------晶片中心高度
+hpiv = 8.0 * 1e-5  # ----------------------------------------晶片中心高度
 viscosity = 0.00214  # ---------------------------抛光液粘度
 rho = 1800.0
 
@@ -109,57 +109,36 @@ def f2(ri, tj):
     return aa * (dd * cos(theta_in[tj]) + r_in[ri] + r_in[ri] * ee) * dh_theta(ri, tj)
 
 
-def lixinf1(ri, tj):
-    return 6 * rho * r0 ** 2 / p0 * r_in[ri] ** 2 * h_function(ri, tj) ** 2 \
-           * wp ** 2 * dh_r(tj)
+def duiliuf1(ri, tj):
+    return 6 * rho * r0 ** 2 * wp ** 2 / p0 * r_in[ri] * (r_in[ri] + dd
+            * cos(theta_in[tj])) * h_function(ri, tj) ** 2 * dh_r(tj)
 
 
-def lixinf2(ri, tj):
-    return 12 * rho * r0 ** 2 / p0 * r_in[ri] * dd * h_function(ri, tj) ** 2 \
-           * cos(theta_in[tj]) * wp ** 2 * dh_r(tj)
+def duiliuf2(ri, tj):
+    return -3 * ee ** 2 * rho * r0 ** 2 * wp ** 2 / p0 * r_in[ri] ** 2 \
+           * h_function(ri, tj) ** 2 * dh_r(tj)
 
 
-def lixinf3(ri, tj):
-    return 6 * rho * r0 ** 2 / p0 * dd ** 2 * h_function(ri, tj) ** 2 \
-           * cos(theta_in[tj]) ** 2 * wp ** 2 * dh_r(tj)
+def duiliuf3(ri, tj):
+    return -6 * dd * rho * r0 ** 2 * wp ** 2 / p0 * h_function(ri, tj) ** 2 \
+           * sin(theta_in[tj]) * dh_theta(ri, tj)
 
 
-def lixinf4(ri, tj):
-    return -3 * rho * r0 ** 2 / p0 * r_in[ri] ** 2 * h_function(ri, tj) ** 2\
-           * ww ** 2 * dh_r(tj)
+def duiliuf4(ri, tj):
+    return 2 * rho * r0 ** 2 * wp ** 2 * hhh(ri, tj) / p0 * (2 * r_in[ri] + dd * cos(theta_in[tj]))
 
 
-def lixinf5(ri, tj):
-    return -6 * rho * r0 ** 2 / p0 * dd * h_function(ri, tj) ** 2 \
-           * sin(theta_in[tj]) * wp ** 2 * dh_theta(ri, tj)
+def duiliuf5(ri, tj):
+    return -2 * ee ** 2 * rho * r0 ** 2 * wp ** 2 * r_in[ri] * hhh(ri, tj) / p0
 
 
-def lixinf6(ri, tj):
-    return -3 * rho * r0 ** 2 / p0 / r_in[ri] * dd ** 2 * h_function(ri, tj) ** 2 \
-           * sin(2 * theta_in[tj]) * wp ** 2 * dh_theta(ri, tj)
+def duiliuf6(ri, tj):
+    return -2 * dd * rho * r0 ** 2 * wp ** 2 / p0 * hhh(ri, tj) * cos(theta_in[tj])
 
 
-def lixinf7(ri, tj):
-    return 4 * rho * r0 ** 2 / p0 * r_in[ri] * hhh(ri, tj) * wp ** 2
-
-
-def lixinf8(ri, tj):
-    return -2 * rho * r0 ** 2 / p0 * r_in[ri] * hhh(ri, tj) * ww ** 2
-
-
-def lixinf9(ri, tj):
-    return 2 * rho * r0 ** 2 / p0 * dd * hhh(ri, tj) * cos(theta_in[tj]) * wp ** 2
-
-
-def lixinf10(ri, tj):
-    return -2 * rho * r0 ** 2 / (p0 * r_in[ri]) * wp ** 2 * hhh(ri, tj) \
-           * dd ** 2 * cos(2 * theta_in[tj])
-
-
-def lixinf(ri, tj):
-    return lixinf1(ri, tj) + lixinf2(ri, tj) + lixinf3(ri, tj) + lixinf4(ri, tj)\
-           + lixinf5(ri, tj) + lixinf6(ri, tj) + lixinf7(ri, tj) + lixinf8(ri, tj) \
-           + lixinf9(ri, tj) + lixinf10(ri, tj)
+def duiliuf(ri, tj):
+    return duiliuf1(ri, tj) + duiliuf2(ri, tj) + duiliuf3(ri, tj) \
+           + duiliuf4(ri, tj) + duiliuf5(ri, tj) + duiliuf6(ri, tj)
 
 
 def suma():
@@ -184,7 +163,7 @@ for i in range(1, r_in.size):
         D_1[k] = -c6(i, j) / r_in[i] / h_theta ** 2
         Dn[k] = -c1(i, j) / hr ** 2
         D_n[k] = -c3(i, j) / hr ** 2
-        b[k + 1] = -f1(i, j) - f2(i, j) - lixinf(i, j)
+        b[k + 1] = -f1(i, j) - f2(i, j) - duiliuf(i, j)
         k += 1
 
 b[0] = sumb()
@@ -246,11 +225,12 @@ fig1, ax1 = plt.subplots()
 surf1 = ax1.pcolor(xx1, yy1, data, cmap=cm.rainbow)
 fig1.colorbar(surf1)
 
-xx = X * np.cos(Y)
-yy = X * np.sin(Y)
-fig2, ax2 = plt.subplots(subplot_kw={"projection": "3d"})
-surf2 = ax2.plot_surface(xx, yy, data, cmap=cm.rainbow)
-
+# xx = X * np.cos(Y)
+# yy = X * np.sin(Y)
+# fig2, ax2 = plt.subplots(subplot_kw={"projection": "3d"})
+# surf2 = ax2.plot_surface(xx, yy, data, cmap=cm.rainbow)
+#
+#
 # xx = xx.transpose()
 # xx = xx.reshape(xx.shape[0] * xx.shape[1], )
 #
@@ -263,8 +243,8 @@ surf2 = ax2.plot_surface(xx, yy, data, cmap=cm.rainbow)
 # data1 = np.array([xx, yy, zz])
 #
 # data1 = data1.transpose()
-
-# np.savetxt('/home/xt/github/python3/file_and_animation/cmpdata_64.plt', np.c_[data1],
+#
+# np.savetxt('/home/xt/github/python3/file_and_animation/cmpdata_duiliu64.plt', np.c_[data1],
 #            fmt='%.16f', delimiter='\t')
 
 plt.show()
