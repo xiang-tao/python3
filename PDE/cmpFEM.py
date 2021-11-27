@@ -10,9 +10,9 @@ from fealpy.boundarycondition import DirichletBC
 pde = CmpData()
 mesh = mf.unitcirclemesh(0.05, meshtype='tri')
 space = LagrangeFiniteElementSpace(mesh, p=2)
-# fig = plt.figure()
-# axes = fig.gca()
-# mesh.add_plot(axes)
+fig = plt.figure()
+axes = fig.gca()
+mesh.add_plot(axes)
 
 uh = space.function()  # 返回一个有限元函数，初始自由度值是 0
 # M = space.mass_matrix()

@@ -225,12 +225,12 @@ fig1, ax1 = plt.subplots()
 surf1 = ax1.pcolor(xx1, yy1, data, cmap=cm.rainbow)
 fig1.colorbar(surf1)
 
-# xx = X * np.cos(Y)
-# yy = X * np.sin(Y)
-# fig2, ax2 = plt.subplots(subplot_kw={"projection": "3d"})
-# surf2 = ax2.plot_surface(xx, yy, data, cmap=cm.rainbow)
-#
-#
+xx = X * np.cos(Y)
+yy = X * np.sin(Y)
+fig2, ax2 = plt.subplots(subplot_kw={"projection": "3d"})
+surf2 = ax2.plot_surface(xx, yy, data, cmap=cm.rainbow)
+
+
 # xx = xx.transpose()
 # xx = xx.reshape(xx.shape[0] * xx.shape[1], )
 #

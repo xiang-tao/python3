@@ -29,8 +29,8 @@ aa = 6 * viscosity * wp / p0 * xx ** 2
 dd = d / r0
 ee = ww / wp
 
-nr = 32
-n_theta = 32
+nr = 64
+n_theta = 64
 r = np.linspace(0, 1, nr)
 hr = 1 / (nr - 1)
 theta = np.linspace(0, 2 * pi, n_theta)
@@ -251,20 +251,20 @@ yy = X * np.sin(Y)
 fig2, ax2 = plt.subplots(subplot_kw={"projection": "3d"})
 surf2 = ax2.plot_surface(xx, yy, data, cmap=cm.rainbow)
 
-# xx = xx.transpose()
-# xx = xx.reshape(xx.shape[0] * xx.shape[1], )
-#
-# yy = yy.transpose()
-# yy = yy.reshape(yy.shape[0] * yy.shape[1], )
-#
-# zz = data.transpose()
-# zz = zz.reshape(data.shape[0] * data.shape[1], )
-#
-# data1 = np.array([xx, yy, zz])
-#
-# data1 = data1.transpose()
+xx = xx.transpose()
+xx = xx.reshape(xx.shape[0] * xx.shape[1], )
 
-# np.savetxt('/home/xt/github/python3/file_and_animation/cmpdata_64.plt', np.c_[data1],
-#            fmt='%.16f', delimiter='\t')
+yy = yy.transpose()
+yy = yy.reshape(yy.shape[0] * yy.shape[1], )
+
+zz = data.transpose()
+zz = zz.reshape(data.shape[0] * data.shape[1], )
+
+data1 = np.array([xx, yy, zz])
+
+data1 = data1.transpose()
+
+np.savetxt('/home/xt/github/python3/file_and_animation/cmpdata_lixin64.plt', np.c_[data1],
+           fmt='%.16f', delimiter='\t')
 
 plt.show()

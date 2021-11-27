@@ -59,9 +59,8 @@ dC_y = dB_x
 def duiliu(self, p):
     x = p[..., 0]
     y = p[..., 1]
-    return r0 / p0 * (h(self, p) ** 3 * dB_x + B(self, p) * 3 * h(self, p) ** 2
-                      * dh_x(self, p) + h(self, p) ** 3 * dC_y + C(self, p) * 3
-                      * h(self, p) ** 2 * dh_y(self, p))
+    return r0/p0*(h(self, p)**3*dB_x+B(self, p)*3*h(self, p)**2
+                  *dh_x(self, p)+h(self, p)**3*dC_y+C(self, p)*3*h(self, p)**2*dh_y(self, p))
 
 
 class CmpData:

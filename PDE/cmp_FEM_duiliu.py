@@ -2,13 +2,13 @@ import numpy as np
 from scipy.sparse import csr_matrix
 from scipy.sparse.linalg import spsolve
 import matplotlib.pyplot as plt
-from testdata import CmpData
+from cmp_FEM_duiliu_data import CmpData
 from fealpy.mesh import MeshFactory as mf
 from fealpy.functionspace import LagrangeFiniteElementSpace
 from fealpy.boundarycondition import DirichletBC
 
 pde = CmpData()
-mesh = mf.unitcirclemesh(0.05, meshtype='tri')
+mesh = mf.unitcirclemesh(0.04, meshtype='tri')
 space = LagrangeFiniteElementSpace(mesh, p=2)
 # fig = plt.figure()
 # axes = fig.gca()
