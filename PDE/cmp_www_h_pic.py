@@ -4,7 +4,7 @@ from matplotlib import rc
 rc('mathtext', default='regular')
 
 
-ary = np.genfromtxt("/home/xt/github/python3/cmpdata/alpha_wfwxwy.txt", dtype=None)
+ary = np.genfromtxt("/home/xt/github/python3/cmpdata/wfwxwy.txt", dtype=None)
 hpiv = ary[0]
 wx = ary[1]
 wy = ary[2]
@@ -24,7 +24,7 @@ lns3= ax2.plot(hpiv, wy, c="k", ls="-", marker='p', label='wy')
 # ax2.set_ylabel("yuxuan", color="r")
 # ax2.tick_params("y", colors="r")
 
-lns = lns1+lns2 +lns3
+lns = lns1+lns2+lns3
 labs = [l.get_label() for l in lns]
 ax1.legend(lns, labs, loc=0)
 

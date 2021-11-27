@@ -11,11 +11,15 @@ from matplotlib import cm
 sin = np.sin
 cos = np.cos
 pi = np.pi
+alpha = np.linspace(-0.03, 0.03, 7)
+npwf = np.zeros(7)
+npwx = np.zeros(7)
+npwy = np.zeros(7)
 
 # 请注意r/s单位不是国际单位，应换算成弧度每秒，而一转的弧度是2*pi，故需要乘2*pi
-ww = 50.0 / 60 * 2 * pi * 1  # ----------------------------------------晶片的角速度
-wp = 100.0 / 60 * 2 * pi * 1  # ----------------------------------------抛光垫的角速度
-angle1 = -0.02 * pi / 180  # ---------------------------转角
+ww = 50.0 / 60 * 2 * pi  # ----------------------------------------晶片的角速度
+wp = 100.0 / 60 * 2 * pi  # ----------------------------------------抛光垫的角速度
+# angle1 = 0.02 * pi / 180  # ---------------------------转角
 angle2 = 0.018 * pi / 180  # ---------------------------倾角
 d = 0.15  # ---------------------------晶片和抛光垫的旋转中心距
 r0 = 5.0 * 1e-2
@@ -23,13 +27,9 @@ p0 = 101000.0
 hpiv = 8.0 * 1e-5  # ----------------------------------------晶片中心高度
 viscosity = 0.00214  # ---------------------------抛光液粘度
 rho = 1800.0
-high = np.linspace(50, 110, 7)
-npwf = np.zeros(7)
-npwx = np.zeros(7)
-npwy = np.zeros(7)
 
-for number in range(7):
-    # hpiv = high[number] * 1e-6
+for num in range(7):
+    angle1 = alpha[num]*pi/180
     xx = r0 / hpiv
     aa = 6 * viscosity * wp / p0 * xx ** 2
     dd = d / r0
@@ -222,10 +222,11 @@ for number in range(7):
             wf += data[j][i] * r[i] * h_theta * hr
             wx += data[j][i] * r[i] ** 2 * sin(theta[j]) * h_theta * hr
             wy += data[j][i] * r[i] ** 2 * cos(theta[j]) * h_theta * hr
-    npwf[number] = wf / pi
-    npwx[number] = wx / pi
-    npwy[number] = -wy / pi
+    npwf[num] = wf / pi
+    npwx[num] = wx / pi
+    npwy[num] = -wy / pi
 
-print(npwf)
-print(npwx)
-print(npwy)
+cmpwww = np.array([alpha, npwx, npwy, npwf])
+
+np.savetxt('/home/xt/github/python3/cmpdata/alpha_wfwxwy.txt', np.c_[cmpwww],
+           fmt='%.16f', delimiter='\t')

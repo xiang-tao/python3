@@ -3,15 +3,9 @@
   <component name="ChangeListManager">
     <list default="true" id="a3391948-0b26-4ce7-9716-e3c8fad6564d" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PDE/cmp.py" beforeDir="false" afterPath="$PROJECT_DIR$/PDE/cmp.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PDE/cmpFEM.py" beforeDir="false" afterPath="$PROJECT_DIR$/PDE/cmpFEM.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PDE/cmp_duiliu.py" beforeDir="false" afterPath="$PROJECT_DIR$/PDE/cmp_duiliu.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PDE/cmp_lixin.py" beforeDir="false" afterPath="$PROJECT_DIR$/PDE/cmp_lixin.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/PDE/test.py" beforeDir="false" afterPath="$PROJECT_DIR$/PDE/test.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/PDE/testdata.py" beforeDir="false" afterPath="$PROJECT_DIR$/PDE/testdata.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/file_and_animation/cmp.plt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/file_and_animation/cmpdata_64.plt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/file_and_animation/cmpdata_duiliu64.plt" beforeDir="false" afterPath="$PROJECT_DIR$/file_and_animation/cmpdata_duiliu64.plt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/file_and_animation/file.py" beforeDir="false" afterPath="$PROJECT_DIR$/file_and_animation/file.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -50,8 +44,8 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PythonContentEntriesConfigurable" />
   </component>
-  <component name="RunManager" selected="Python.compare_FDM_duiliu">
-    <configuration name="cmpFEM" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="Python.testdata">
+    <configuration name="cmp_www" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="python3" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -63,7 +57,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/PDE/cmpFEM.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/PDE/cmp_www.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -72,7 +66,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="cmp_FEM_duiliu" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="cmp_www_alpha" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="python3" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -84,7 +78,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/PDE/cmp_FEM_duiliu.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/PDE/cmp_www_alpha.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -93,7 +87,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="cmp_duiliu" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="cmp_www_h_pic" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="python3" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -105,7 +99,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/PDE/cmp_duiliu.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/PDE/cmp_www_h_pic.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -114,7 +108,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="compare_FDM_duiliu" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="test" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="python3" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -126,7 +120,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/PDE/compare_FDM_duiliu.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/PDE/test.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -135,7 +129,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="compare_FEM_duiliu" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="testdata" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="python3" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -147,7 +141,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/PDE/compare_FEM_duiliu.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/PDE/testdata.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -158,11 +152,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.compare_FDM_duiliu" />
-        <item itemvalue="Python.compare_FEM_duiliu" />
-        <item itemvalue="Python.cmp_FEM_duiliu" />
-        <item itemvalue="Python.cmp_duiliu" />
-        <item itemvalue="Python.cmpFEM" />
+        <item itemvalue="Python.testdata" />
+        <item itemvalue="Python.cmp_www_alpha" />
+        <item itemvalue="Python.cmp_www_h_pic" />
+        <item itemvalue="Python.cmp_www" />
+        <item itemvalue="Python.test" />
       </list>
     </recent_temporary>
   </component>
