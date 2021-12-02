@@ -228,5 +228,5 @@ for num in range(7):
 
 cmpwww = np.array([high, npwx, npwy, npwf])
 
-np.savetxt('/home/xt/github/python3/cmpdata/wfwxwy.txt', np.c_[cmpwww],
+np.savetxt('/home/xt/github/python3/cmpdata/h_www32.txt', np.c_[cmpwww],
            fmt='%.16f', delimiter='\t')
