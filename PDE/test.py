@@ -154,7 +154,7 @@ def cc2(tj):
 def cichang(ri, tj):
     return r0/p0*(hhh(ri, tj)**3*(cc1(tj)+2*cc2(tj))*r_in[ri]+(cc1(tj)
         *r_in[ri]+cc2(tj)*r_in[ri]**2)*3*h_function(ri, tj)**2*dh_r(tj))
-print(cichang(10, 10))
+# print(cichang(10, 10))
 
 
 def suma():
@@ -179,7 +179,7 @@ for i in range(1, r_in.size):
         D_1[k] = -c6(i, j) / r_in[i] / h_theta ** 2
         Dn[k] = -c1(i, j) / hr ** 2
         D_n[k] = -c3(i, j) / hr ** 2
-        b[k + 1] = -f1(i, j) - f2(i, j) - duiliuf(i, j)-cichang(i, j)
+        b[k + 1] = -f1(i, j) - f2(i, j) - duiliuf(i, j) - cichang(i, j)
         k += 1
 
 b[0] = sumb()

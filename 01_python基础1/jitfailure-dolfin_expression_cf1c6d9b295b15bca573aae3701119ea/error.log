@@ -1,0 +1,5 @@
+/tmp/tmp82jkio1z/dolfin_expression_cf1c6d9b295b15bca573aae3701119ea.cpp: In member function ‘virtual void dolfin::dolfin_expression_cf1c6d9b295b15bca573aae3701119ea::eval(Eigen::Ref<Eigen::Matrix<double, -1, 1> >, Eigen::Ref<const Eigen::Matrix<double, -1, 1> >) const’:
+/tmp/tmp82jkio1z/dolfin_expression_cf1c6d9b295b15bca573aae3701119ea.cpp:61:50: error: ‘R0’ was not declared in this scope; did you mean ‘y0’?
+   61 |           values[0] = (pow(x[0], 2) + pow(x[1] - R0, 2));
+      |                                                  ^~
+      |                                                  y0

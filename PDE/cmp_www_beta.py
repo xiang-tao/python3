@@ -35,8 +35,8 @@ for num in range(7):
     dd = d / r0
     ee = ww / wp
 
-    nr = 32
-    n_theta = 32
+    nr = 64
+    n_theta = 64
     r = np.linspace(0, 1, nr)
     hr = 1 / (nr - 1)
     theta = np.linspace(0, 2 * pi, n_theta)
@@ -217,16 +217,21 @@ for num in range(7):
     wf = 0.0
     wx = 0.0
     wy = 0.0
-    for j in range(n_theta):
-        for i in range(nr):
-            wf += data[j][i] * r[i] * h_theta * hr
-            wx += data[j][i] * r[i] ** 2 * sin(theta[j]) * h_theta * hr
-            wy += data[j][i] * r[i] ** 2 * cos(theta[j]) * h_theta * hr
-    npwf[num] = wf / pi
-    npwx[num] = wx / pi
-    npwy[num] = -wy / pi
+    for j in range(n_theta - 1):
+        for i in range(nr - 1):
+            wf += data[j][i] * r[i] + data[j + 1][i] * r[i] + data[j][i + 1] * r[i + 1] \
+                  + data[j + 1][i + 1] * r[i + 1]
+            wx += data[j][i] * r[i] ** 2 * sin(theta[j]) + data[j + 1][i] * r[i] ** 2 * sin(theta[j + 1]) \
+                  + data[j][i + 1] * r[i + 1] ** 2 * sin(theta[j]) + data[j + 1][i + 1] * r[i + 1] ** 2 * sin(
+                theta[j + 1])
+            wy += data[j][i] * r[i] ** 2 * cos(theta[j]) + data[j + 1][i] * r[i] ** 2 * cos(theta[j + 1]) \
+                  + data[j][i + 1] * r[i + 1] ** 2 * cos(theta[j]) + data[j + 1][i + 1] * r[i + 1] ** 2 * cos(
+                theta[j + 1])
+    npwf[num] = wf / pi * h_theta * hr / 4
+    npwx[num] = wx / pi * h_theta * hr / 4
+    npwy[num] = -wy / pi * h_theta * hr / 4
 
 cmpwww = np.array([beta, npwx, npwy, npwf])
 
-np.savetxt('/home/xt/github/python3/cmpdata/beta_www32.txt', np.c_[cmpwww],
+np.savetxt('/home/xt/github/python3/cmpdata/beta_www64.txt', np.c_[cmpwww],
            fmt='%.16f', delimiter='\t')

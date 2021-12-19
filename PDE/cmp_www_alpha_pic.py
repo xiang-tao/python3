@@ -26,6 +26,6 @@ ax2.tick_params("y", colors="r")
 
 lns = lns1+lns2 +lns3
 labs = [l.get_label() for l in lns]
-ax1.legend(lns, labs, loc=10)
+ax1.legend(lns, labs, loc=6)
 
 plt.show()

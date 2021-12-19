@@ -4,7 +4,7 @@ from matplotlib import rc
 rc('mathtext', default='regular')
 
 
-ary = np.genfromtxt("/home/xt/github/python3/cmpdata/h_www64.txt", dtype=None)
+ary = np.genfromtxt("/home/xt/github/python3/cmpdata/h_www32.txt", dtype=None)
 hpiv = ary[0]
 wx = ary[1]
 wy = ary[2]
