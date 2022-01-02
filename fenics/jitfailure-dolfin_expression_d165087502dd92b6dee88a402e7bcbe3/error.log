@@ -1,0 +1,11 @@
+/tmp/tmp7jqj6zkt/dolfin_expression_d165087502dd92b6dee88a402e7bcbe3.cpp: In member function ‘virtual void dolfin::dolfin_expression_d165087502dd92b6dee88a402e7bcbe3::eval(Eigen::Ref<Eigen::Matrix<double, -1, 1> >, Eigen::Ref<const Eigen::Matrix<double, -1, 1> >) const’:
+/tmp/tmp7jqj6zkt/dolfin_expression_d165087502dd92b6dee88a402e7bcbe3.cpp:69:109: error: ‘duiliu’ was not declared in this scope
+   69 |           values[0] = 6*viscosity*((wp*(x[0]*r0+d)+ww*r0*x[0])*sin(angle1)-((ww+wp)*r0*x[1])*sin(angle2))/k-duiliu;
+      |                                                                                                             ^~~~~~
+/tmp/tmp7jqj6zkt/dolfin_expression_d165087502dd92b6dee88a402e7bcbe3.cpp: In member function ‘virtual double dolfin::dolfin_expression_d165087502dd92b6dee88a402e7bcbe3::get_property(std::string) const’:
+/tmp/tmp7jqj6zkt/dolfin_expression_d165087502dd92b6dee88a402e7bcbe3.cpp:81:11: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+   81 |           if (name == "viscosity") return viscosity;          if (name == "wp") return wp;          if (name == "ww") return ww;          if (name == "r0") return r0;          if (name == "angle1") return angle1;          if (name == "angle2") return angle2;          if (name == "k") return k;          if (name == "d") return d;
+      |           ^~
+/tmp/tmp7jqj6zkt/dolfin_expression_d165087502dd92b6dee88a402e7bcbe3.cpp:81:63: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+   81 |           if (name == "viscosity") return viscosity;          if (name == "wp") return wp;          if (name == "ww") return ww;          if (name == "r0") return r0;          if (name == "angle1") return angle1;          if (name == "angle2") return angle2;          if (name == "k") return k;          if (name == "d") return d;
+      |                                                               ^~

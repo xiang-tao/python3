@@ -1,6 +1,7 @@
 import xt_pdenew_matrix as matrix
 import numpy as np
-from scipy import linalg
+import scipy.sparse as sp
+import scipy.sparse.linalg
 import matplotlib.pyplot as plt
 from matplotlib import cm
 
@@ -35,8 +36,8 @@ for num in range(7):
     dd = d / r0
     ee = ww / wp
 
-    nr = 32
-    n_theta = 32
+    nr = 64
+    n_theta = 64
     r = np.linspace(0, 1, nr)
     hr = 1 / (nr - 1)
     theta = np.linspace(0, 2 * pi, n_theta)
@@ -202,8 +203,9 @@ for num in range(7):
         B[j + 1][0] = D_n[j]
     B[1:B.shape[0], 1:B.shape[1]] = A
 
+    B = sp.csr_matrix(B)
     rb = b - f
-    rx = linalg.solve(B, rb)
+    rx = sp.linalg.spsolve(B, rb)
 
     k = 1
     for j in range(1, r.size - 1):
@@ -233,5 +235,5 @@ for num in range(7):
 
 cmpwww = np.array([alpha, npwx, npwy, npwf])
 
-np.savetxt('/home/xt/github/python3/cmpdata/alpha_www32.txt', np.c_[cmpwww],
-           fmt='%.16f', delimiter='\t')
+# np.savetxt('/home/xt/github/python3/cmpdata/alpha_www32.txt', np.c_[cmpwww],
+#            fmt='%.16f', delimiter='\t')

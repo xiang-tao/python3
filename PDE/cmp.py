@@ -1,6 +1,8 @@
 import xt_pdenew_matrix as matrix
 import numpy as np
-from scipy import linalg
+# from scipy import linalg
+import scipy.sparse as sp
+import scipy.sparse.linalg
 import matplotlib.pyplot as plt
 from matplotlib import cm
 
@@ -166,9 +168,10 @@ for j in range(len(theta_in)):
     B[j+1][0] = D_n[j]
 B[1:B.shape[0], 1:B.shape[1]] = A
 
+B = sp.csr_matrix(B)
 rb = b - f
-rx = linalg.solve(B, rb)
-
+# rx = linalg.solve(B, rb)
+rx = sp.linalg.spsolve(B, rb)
 k = 1
 for j in range(1, r.size-1):
     for i in range(theta.size-1):

@@ -26,7 +26,7 @@ angle2 = 0.018 * pi / 180  # ---------------------------倾角
 d = 0.15  # ---------------------------晶片和抛光垫的旋转中心距
 r0 = 5.0*1e-2
 p0 = 101000.0
-hpiv = 8.0*1e-5  # ----------------------------------------晶片中心高度
+hpiv = 5.0*1e-5  # ----------------------------------------晶片中心高度
 viscosity = 0.00214  # ---------------------------抛光液粘度
 k = hpiv**3/r0*p0/r0
 xx = r0 / hpiv
@@ -72,10 +72,10 @@ bc = DirichletBC(V, w_D, boundary)
 
 # Define load
 p = Expression('1-kk*x[0]*sin(angle1)-kk*x[1]*sin(angle2)',
-               degree=1, kk=r0/hpiv, angle1=angle1, angle2=angle2)
+               degree=2, kk=r0/hpiv, angle1=angle1, angle2=angle2)
 f = Expression('6*viscosity*((wp*(x[0]*r0+d)+ww*r0*x[0])*sin(angle1)'
                '-((ww+wp)*r0*x[1])*sin(angle2))/k',
-               degree=1, viscosity=viscosity, wp=wp, ww=ww, r0=r0,
+               degree=2, viscosity=viscosity, wp=wp, ww=ww, r0=r0,
                angle1=angle1, angle2=angle2, k=k, d=d)
 
 # Define variational problem
@@ -99,5 +99,4 @@ for cell in cells(mesh):
     load += measure*values_avg
 
 print(load/pi)
-
 plt.show()
