@@ -52,6 +52,7 @@ bc = DirichletBC(V, w_D, boundary)
 # Define load
 p = Expression('1-kk*x[0]*sin(angle1)-kk*x[1]*sin(angle2)',
                degree=2, kk=r0/hpiv, angle1=angle1, angle2=angle2)
+
 f = Expression('6*viscosity*((wp*(x[0]*r0+d)+ww*r0*x[0])*sin(angle1)'
                '-((ww+wp)*r0*x[1])*sin(angle2))/k',
                degree=2, viscosity=viscosity, wp=wp, ww=ww, r0=r0,
@@ -70,8 +71,8 @@ solve(a == L, w, bc)
 plot(w, title='Deflection', cmap=cm.rainbow)
 
 # Save solution to file in VTK format
-vtkfile_w = File('cmpdata/odernary.pvd')
-vtkfile_w << w
+# vtkfile_w = File('cmpdata/odernary.pvd')
+# vtkfile_w << w
 
 import matplotlib.pyplot as plt
 plt.show()
