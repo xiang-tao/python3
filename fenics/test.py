@@ -38,6 +38,9 @@ print(a)
 print("dx", type(dx))
 print("a:", type(a))
 L = f*v*dx
+print("L", type(L))
+print("f:", type(f))
+print("v:", type(v))
 
 # Compute solution
 u = Function(V)

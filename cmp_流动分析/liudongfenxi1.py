@@ -10,9 +10,9 @@ N = 50
 E = 40.0 * 10 ** 6
 v = 0.4
 a = 0.05
-K = 6 * 10 ** 9
+K = 5 * 10 ** 9
 # K = 10**11
-delta = 60 * 10 ** (-6)
+delta = 40 * 10 ** (-6)
 h = 2 * a / N
 lam = -2 * (1 - v ** 2) / (np.pi * E)
 u = 1 / K
@@ -20,7 +20,7 @@ um = u / h
 
 
 def k(t, s):
-    return np.log(abs((t - s) / (-0.025 - s)))
+    return np.log(abs((t - s) / (-a - s)))
 
 
 def kk(t, s):
@@ -49,8 +49,8 @@ for i in range(N):
             k0[i][j] = k(x[i], x[j])
             k1[i][j] = kk(x[i], x[j])
         if i == j:
-            k0[i][j] = (k(x[i] - 0.1 * h, x[j]) + k(x[i] + 0.1 * h, x[j])) / 2
-            k1[i][j] = (kk(x[i] - 0.1 * h, x[j]) + kk(x[i] + 0.1 * h, x[j])) / 2
+            k0[i][j] = (k(x[i] - 0.5 * h, x[j]) + k(x[i] + 0.5 * h, x[j])) / 2
+            k1[i][j] = (kk(x[i] - 0.5 * h, x[j]) + kk(x[i] + 0.5 * h, x[j])) / 2
 
 A = h * lam * k0 + um * h * F
 A1 = h * lam * k1 + um * h * F
@@ -58,6 +58,9 @@ A1 = h * lam * k1 + um * h * F
 reslut1 = linalg.solve(A, b)
 reslut2 = linalg.solve(A1, b)
 
-plt.plot(x * 10, reslut1 / 1000)
-plt.plot(x * 10, reslut2 / 1000)
+plt.plot(x * 10, reslut1 / 1000, label='$x_0 = -a$')
+plt.plot(x * 10, reslut2 / 1000, label='$x_0 = 0$')
+plt.xlabel("Wafer position(x/2a)", fontsize='15')
+plt.ylabel("friction pressure$~p_s$ KPa", fontsize='15')
+plt.legend()
 plt.show()

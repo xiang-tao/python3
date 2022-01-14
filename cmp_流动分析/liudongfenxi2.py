@@ -10,9 +10,9 @@ N = 50
 E = 40.0 * 10 ** 6
 v = 0.4
 a = 0.05
-K = 1 * 10 ** 9
-K1 = 1 * 10 ** 10
-delta = 60 * 10 ** (-6)
+K = 1.5 * 10 ** 9
+K1 = 1.5 * 10 ** 10
+delta = 40 * 10 ** (-6)
 h = 2 * a / N
 lam = -2 * (1 - v ** 2) / (np.pi * E)
 u = 1 / K
@@ -22,7 +22,7 @@ um1 = u1/h
 
 
 def k(t, s):
-    return np.log(abs((t - s) / (-0.025 - s)))
+    return np.log(abs((t - s) / (-a - s)))
 
 
 x = np.zeros(N)

@@ -15,6 +15,7 @@ space = LagrangeFiniteElementSpace(mesh, p=2)
 # mesh.add_plot(axes)
 
 uh = space.function()  # 返回一个有限元函数，初始自由度值是 0
+# print(type(uh))
 # M = space.mass_matrix()
 A = space.stiff_matrix(c=pde.h_function)
 

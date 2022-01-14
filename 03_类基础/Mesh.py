@@ -7,7 +7,6 @@ class IntervalMesh(object):
         self.right = right
         self.N = N
 
-
     def generate_p(self):
         P = np.zeros((self.N + 1, 1))
         h = (self.right - self.left) / self.N
