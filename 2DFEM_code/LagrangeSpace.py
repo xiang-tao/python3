@@ -11,12 +11,7 @@ class LagrangeSpace(object):
             Pb = self.mesh.generate_p()
             return Pb
         elif self.degree == 2:
-            Nb = 2*self.mesh.N
-            Pb = np.zeros((Nb + 1, 1))
-            h = (self.mesh.right - self.mesh.left) / Nb
-            for i in range(Nb + 1):
-                Pb[i][0] = i * h
-            return Pb
+            pass
         else:
             pass
 
@@ -25,13 +20,35 @@ class LagrangeSpace(object):
             Tb = self.mesh.generate_t()
             return Tb
         elif self.degree == 2:
-            N = self.mesh.N
-            Tb = np.zeros((N, 3), dtype=np.int64)
-            for i in range(0, N):
-                Tb[i][0] = 2*i
-                Tb[i][1] = 2*i + 1
-                Tb[i][2] = 2*i + 2
-            return Tb
+            pass
+        else:
+            pass
+
+    def generate_boundarynodes(self, type=-1):
+        N1 = self.mesh.N1
+        N2 = self.mesh.N2
+        boundarynodes = np.zeros((2*(N1+N2), 2), dtype=np.int64)
+        if self.degree == 1:
+            for cn in range(N1+1):
+                boundarynodes[cn][0] = type
+                all_n = cn*(N2+1)
+                boundarynodes[cn][1] = all_n
+            for rn in range(1, N2+1):
+                boundarynodes[N1+rn][0] = type
+                all_n = (N2+1)*N1+rn
+                boundarynodes[N1+rn][1] = all_n
+            for cn in range(N1):
+                boundarynodes[2*N1+N2-cn][0] = type
+                all_n = N2+cn*(N2+1)
+                boundarynodes[2*N1+N2-cn][1] = all_n
+            for rn in range(N2-1):
+                boundarynodes[2*(N1+N2)-1-rn][0] = type
+                all_n = 1+rn
+                boundarynodes[2*(N1+N2)-1-rn][1] = all_n
+            return boundarynodes
+
+        elif self.degree == 2:
+            pass
         else:
             pass
 
@@ -43,7 +60,7 @@ class BaseBasisFunction(object):
     def __str__(self):
         print("BaseBasisFunction:所有基函数的基类，包含了基函数导数等空间，可以在此处写一些共用的方法属性等")
 
-    def basis_fun(self, x, basis_number, vertices):
+    def basis_fun(self, x, y, basis_number, vertices):
         pass
 
 
@@ -52,14 +69,21 @@ class TrialFunction(BaseBasisFunction):
         super().__init__()
         self.V = V
 
-    def basis_fun(self, x, basis_number, vertices):
+    def basis_fun(self, x, y, basis_number, vertices):
         degree = self.V.degree
         if degree == 1:
-            h = vertices[1] - vertices[0]
+            coor_x = vertices[:, 0]
+            coor_y = vertices[:, 1]
+            J = abs((coor_x[1]-coor_x[0])*(coor_y[2]-coor_y[0])-
+                    (coor_x[2]-coor_x[0])*(coor_y[1]-coor_y[0]))
+            xh = ((coor_y[2]-coor_y[0])*(x-coor_x[0])-(coor_x[2]-coor_x[0])*(y-coor_y[0]))/J
+            yh = (-(coor_y[1]-coor_y[0])*(x-coor_x[0])+(coor_x[1]-coor_x[0])*(y-coor_y[0]))/J
             if basis_number == 0:
-                return (vertices[1] - x) / h
+                return -xh-yh+1
             elif basis_number == 1:
-                return (x - vertices[0]) / h
+                return xh
+            elif basis_number == 2:
+                return yh
             else:
                 print("warning wrong")
 
@@ -83,14 +107,32 @@ class NablaTrialFunction(BaseBasisFunction):
         super().__init__()
         self.u = u
 
-    def basis_fun(self, x, basis_number, vertices):
+    def basis_fun(self, x, y, basis_number, vertices):
         degree = self.u.V.degree
         if degree == 1:
-            h = vertices[1] - vertices[0]
+            coor_x = vertices[:, 0]
+            coor_y = vertices[:, 1]
+            J = abs((coor_x[1] - coor_x[0]) * (coor_y[2] - coor_y[0]) -
+                    (coor_x[2] - coor_x[0]) * (coor_y[1] - coor_y[0]))
+            xh_x = (coor_y[2] - coor_y[0]) / J
+            xh_y = (coor_x[0] - coor_x[2]) / J
+            yh_x = (coor_y[0]-coor_y[1]) / J
+            yh_y = (coor_x[1] - coor_x[0]) / J
             if basis_number == 0:
-                return -1 / h
+                grad_phi = np.zeros(2)
+                grad_phi[0] = -xh_x-yh_x
+                grad_phi[1] = -xh_y-yh_y
+                return grad_phi
             elif basis_number == 1:
-                return 1 / h
+                grad_phi = np.zeros(2)
+                grad_phi[0] = xh_x
+                grad_phi[1] = xh_y
+                return grad_phi
+            elif basis_number == 2:
+                grad_phi = np.zeros(2)
+                grad_phi[0] = yh_x
+                grad_phi[1] = yh_y
+                return grad_phi
             else:
                 print("warning wrong")
 
@@ -114,14 +156,21 @@ class TestFunction(BaseBasisFunction):
         super().__init__()
         self.V = V
 
-    def basis_fun(self, x, basis_number, vertices):
+    def basis_fun(self, x, y, basis_number, vertices):
         degree = self.V.degree
-        h = vertices[1] - vertices[0]
         if degree == 1:
+            coor_x = vertices[:, 0]
+            coor_y = vertices[:, 1]
+            J = abs((coor_x[1] - coor_x[0]) * (coor_y[2] - coor_y[0]) -
+                    (coor_x[2] - coor_x[0]) * (coor_y[1] - coor_y[0]))
+            xh = ((coor_y[2] - coor_y[0]) * (x - coor_x[0]) - (coor_x[2] - coor_x[0]) * (y - coor_y[0])) / J
+            yh = (-(coor_y[1] - coor_y[0]) * (x - coor_x[0]) + (coor_x[1] - coor_x[0]) * (y - coor_y[0])) / J
             if basis_number == 0:
-                return (vertices[1] - x) / h
+                return -xh - yh + 1
             elif basis_number == 1:
-                return (x - vertices[0]) / h
+                return xh
+            elif basis_number == 2:
+                return yh
             else:
                 print("warning wrong")
 
@@ -145,14 +194,33 @@ class NablaTestFunction(BaseBasisFunction):
         super().__init__()
         self.v = v
 
-    def basis_fun(self, x, basis_number, vertices):
+    def basis_fun(self, x, y, basis_number, vertices):
         degree = self.v.V.degree
         h = vertices[1] - vertices[0]
         if degree == 1:
+            coor_x = vertices[:, 0]
+            coor_y = vertices[:, 1]
+            J = abs((coor_x[1] - coor_x[0]) * (coor_y[2] - coor_y[0]) -
+                    (coor_x[2] - coor_x[0]) * (coor_y[1] - coor_y[0]))
+            xh_x = (coor_y[2] - coor_y[0]) / J
+            xh_y = (coor_x[0] - coor_x[2]) / J
+            yh_x = (coor_y[0] - coor_y[1]) / J
+            yh_y = (coor_x[1] - coor_x[0]) / J
             if basis_number == 0:
-                return -1 / h
+                grad_phi = np.zeros(2)
+                grad_phi[0] = -xh_x - yh_x
+                grad_phi[1] = -xh_y - yh_y
+                return grad_phi
             elif basis_number == 1:
-                return 1 / h
+                grad_phi = np.zeros(2)
+                grad_phi[0] = xh_x
+                grad_phi[1] = xh_y
+                return grad_phi
+            elif basis_number == 2:
+                grad_phi = np.zeros(2)
+                grad_phi[0] = yh_x
+                grad_phi[1] = yh_y
+                return grad_phi
             else:
                 print("warning wrong")
 
@@ -204,6 +272,3 @@ class Function(TrialFunction):
 
     def generate_value(self, arr):
         self.__arr = arr
-
-
-

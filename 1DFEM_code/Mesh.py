@@ -11,7 +11,7 @@ class IntervalMesh(object):
         P = np.zeros((self.N + 1, 1))
         h = (self.right - self.left) / self.N
         for i in range(self.N + 1):
-            P[i][0] = i * h
+            P[i][0] = self.left+i * h
         return P
 
     def generate_t(self):

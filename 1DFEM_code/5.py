@@ -5,7 +5,7 @@ import NormError
 
 left, right, N = 0, 1, 32
 mesh = fem.IntervalMesh(left, right, N)
-V = fem.FunctionSpace(mesh, "Lagrange", 1)
+V = fem.FunctionSpace(mesh, "Lagrange", 2)
 u = fem.TrialFunction(V)
 v = fem.TestFunction(V)
 
@@ -39,6 +39,7 @@ A, b = fem.Dirichlet(0, np.cos(1), A, b)
 # A, b = fem.Right_Robbin(0, 4, 2, A, b, p, right)
 uh = fem.Function(V)
 fem.solve(A, uh, b)
+
 # print(max(abs(u.Vector()-uu)))
 # print(u.Vector())
 L2error = NormError.L2Norm(solution, uh)
