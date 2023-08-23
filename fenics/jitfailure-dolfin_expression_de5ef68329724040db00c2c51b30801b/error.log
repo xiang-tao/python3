@@ -1,0 +1,18 @@
+/tmp/tmppht0gfvv/dolfin_expression_de5ef68329724040db00c2c51b30801b.cpp: In member function ‘virtual void dolfin::dolfin_expression_de5ef68329724040db00c2c51b30801b::eval(Eigen::Ref<Eigen::Matrix<double, -1, 1> >, Eigen::Ref<const Eigen::Matrix<double, -1, 1> >) const’:
+/tmp/tmppht0gfvv/dolfin_expression_de5ef68329724040db00c2c51b30801b.cpp:73:33: error: ‘ww’ was not declared in this scope
+   73 |           values[0] = r0*r0/p0*(ww*ww*ppp+3*f*p*p/r0*px_p);
+      |                                 ^~
+/tmp/tmppht0gfvv/dolfin_expression_de5ef68329724040db00c2c51b30801b.cpp: In member function ‘virtual double dolfin::dolfin_expression_de5ef68329724040db00c2c51b30801b::get_property(std::string) const’:
+/tmp/tmppht0gfvv/dolfin_expression_de5ef68329724040db00c2c51b30801b.cpp:85:11: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+   85 |           if (name == "r0") return r0;          if (name == "px_p") return px_p;          if (name == "p0") return p0;
+      |           ^~
+/tmp/tmppht0gfvv/dolfin_expression_de5ef68329724040db00c2c51b30801b.cpp:85:49: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+   85 |           if (name == "r0") return r0;          if (name == "px_p") return px_p;          if (name == "p0") return p0;
+      |                                                 ^~
+/tmp/tmppht0gfvv/dolfin_expression_de5ef68329724040db00c2c51b30801b.cpp: In member function ‘virtual std::shared_ptr<dolfin::GenericFunction> dolfin::dolfin_expression_de5ef68329724040db00c2c51b30801b::get_generic_function(std::string) const’:
+/tmp/tmppht0gfvv/dolfin_expression_de5ef68329724040db00c2c51b30801b.cpp:98:11: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+   98 |           if (name == "ppp") return generic_function_ppp;          if (name == "p") return generic_function_p;          if (name == "f") return generic_function_f;
+      |           ^~
+/tmp/tmppht0gfvv/dolfin_expression_de5ef68329724040db00c2c51b30801b.cpp:98:68: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+   98 |           if (name == "ppp") return generic_function_ppp;          if (name == "p") return generic_function_p;          if (name == "f") return generic_function_f;
+      |                                                                    ^~

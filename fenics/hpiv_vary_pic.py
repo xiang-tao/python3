@@ -4,7 +4,8 @@ from matplotlib import rc
 rc('mathtext', default='regular')
 
 
-ary = np.genfromtxt("/home/xt/github/python3/fenics/cmpdata/h_vary_data.txt", dtype=None)
+ary = np.genfromtxt(
+    "/home/xt/github/python3/fenics/cmpdata/h_vary_data.txt", dtype=None)
 hpiv = ary[0]
 wx = ary[1]
 wy = ary[2]
@@ -18,9 +19,9 @@ ax1.set_xlabel("$h_{piv}$", fontsize='20')
 ax1.set_ylabel("$\overline{W}_f$", color="b", fontsize='20')
 ax1.tick_params("y", colors="b")
 
-ax2=ax1.twinx()
+ax2 = ax1.twinx()
 lns2 = ax2.plot(hpiv, wx, c="r", ls="-", marker='s', label='wx')
-lns3= ax2.plot(hpiv, wy, c="k", ls="-", marker='p', label='wy')
+lns3 = ax2.plot(hpiv, wy, c="k", ls="-", marker='p', label='wy')
 ax2.set_ylabel("$\overline{W}_x,\overline{W}_y$", color="r", fontsize='20')
 ax2.tick_params("y", colors="r")
 

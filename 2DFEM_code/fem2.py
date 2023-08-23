@@ -83,6 +83,7 @@ def Function(V):
 def solve(A, u, b):
     A = sp.csr_matrix(A)
     val = sp.linalg.spsolve(A, b)
+    # val = scipy.sparse.linalg.spsolve(A, b)
     u.generate_value(val)
 
 
@@ -96,4 +97,3 @@ def H1half(grad_ux, grad_uy, uh, phi):
     H1 = NE.H1Norm(grad_ux, grad_uy, uh, phi)
     half_norm_error = H1.half_norm()
     return half_norm_error
-

@@ -1,0 +1,12 @@
+/tmp/tmp8zyx_okt/dolfin_expression_f5c275fd10d08c84b68bc5692c7ec75a.cpp: In member function ‘virtual void dolfin::dolfin_expression_f5c275fd10d08c84b68bc5692c7ec75a::eval(Eigen::Ref<Eigen::Matrix<double, -1, 1> >, Eigen::Ref<const Eigen::Matrix<double, -1, 1> >) const’:
+/tmp/tmp8zyx_okt/dolfin_expression_f5c275fd10d08c84b68bc5692c7ec75a.cpp:65:36: error: ‘r0’ was not declared in this scope; did you mean ‘y0’?
+   65 |           values[0] = 4*rho*ww*wp*(r0*x[0]+d)-2*rho*ww*ww*r0*x[0];
+      |                                    ^~
+      |                                    y0
+/tmp/tmp8zyx_okt/dolfin_expression_f5c275fd10d08c84b68bc5692c7ec75a.cpp: In member function ‘virtual double dolfin::dolfin_expression_f5c275fd10d08c84b68bc5692c7ec75a::get_property(std::string) const’:
+/tmp/tmp8zyx_okt/dolfin_expression_f5c275fd10d08c84b68bc5692c7ec75a.cpp:77:11: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+   77 |           if (name == "rho") return rho;          if (name == "ww") return ww;          if (name == "wp") return wp;          if (name == "d") return d;
+      |           ^~
+/tmp/tmp8zyx_okt/dolfin_expression_f5c275fd10d08c84b68bc5692c7ec75a.cpp:77:51: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+   77 |           if (name == "rho") return rho;          if (name == "ww") return ww;          if (name == "wp") return wp;          if (name == "d") return d;
+      |                                                   ^~

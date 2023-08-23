@@ -1,4 +1,4 @@
-这是一些关于python3的代码，其中SourceHanSansSC-Bold.otf文件的作用是在ubuntu系统下引入中文字体，使用方法如图
+这是些关于python3的代码，其中SourceHanSansSC-Bold.otf文件的作用是在ubuntu系统下引入中文字体，使用方法如图
 
 下载SourceHanSansSC-Bold.otf地址可以参考[下载地址](https://github.com/adobe-fonts/source-han-sans/tree/release/OTF/SimplifiedChinese)
 

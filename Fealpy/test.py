@@ -25,7 +25,6 @@ qf = mesh.integrator(1)  # 一致加密
 bcs, ws = qf.quadpts, qf.weights  # 重心坐标积分点和权重
 ps1 = mesh.bc_to_point(bcs)
 ps = mesh.bc_to_point(bc)
-
 """
 
 Notes：
@@ -38,7 +37,7 @@ Notes：
 
 
 def f(x, y):
-    return 2*(x+y)
+    return 2 * (x + y)
 
 
 val = np.zeros((1, NC))

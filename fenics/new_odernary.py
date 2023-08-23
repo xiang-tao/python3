@@ -20,12 +20,12 @@ pi = np.pi
 # 请注意r/s单位不是国际单位，应换算成弧度每秒，而一转的弧度是2*pi，故需要乘2*pi
 ww = 5.0 * pi / 3.0  # 50.0  # ----------------------------------------晶片的角速度
 wp = 10.0 * pi / 3.0  # 100.0  # ----------------------------------------抛光垫的角速度
-angle1 = 0.02 * pi / 180  # ---------------------------转角
-angle2 = 0.018 * pi / 180  # ---------------------------倾角
+angle1 = 0.015 * pi / 180  # ---------------------------转角
+angle2 = 0.015 * pi / 180  # ---------------------------倾角
 d = 0.15  # ---------------------------晶片和抛光垫的旋转中心距
 r0 = 5.0 * 1e-2
 p0 = 101000.0
-hpiv = 8.0 * 1e-5  # ----------------------------------------晶片中心高度
+hpiv = 5.0 * 1e-5  # ----------------------------------------晶片中心高度
 viscosity = 0.00214  # ---------------------------抛光液粘度
 k = hpiv**3 / r0 * p0 / r0
 xx = r0 / hpiv
@@ -41,6 +41,7 @@ V = FunctionSpace(mesh, 'P', 2)
 
 # Define boundary condition
 w_D = Constant(1.0)
+# w_D = Constant(0.0)
 
 
 def boundary(x, on_boundary):
@@ -55,10 +56,10 @@ p = Expression('1-kk*x[0]*sin(angle1)-kk*x[1]*sin(angle2)',
                kk=r0 / hpiv,
                angle1=angle1,
                angle2=angle2)
-
+# +12*viscosity*(ww*r0*x[1]*sin(angle1)-ww*r0*x[0]*sin(angle2))/k'
 f = Expression(
-    '6*viscosity*((wp*(x[0]*r0+d)+ww*r0*x[0])*sin(angle1)'
-    '-((ww+wp)*r0*x[1])*sin(angle2))/k',
+    '6*viscosity*((wp*(x[0]*r0+d)-ww*r0*x[0])*sin(angle2)'
+    '+((ww-wp)*r0*x[1])*sin(angle1))/k',
     degree=2,
     viscosity=viscosity,
     wp=wp,
@@ -79,11 +80,10 @@ L = f * v * dx  # type:ignore
 w = Function(V)
 solve(a == L, w, bc)
 plot(w, title='Deflection', cmap=cm.rainbow)  # type:ignore
-print(np.max(np.array(w.vector())))
-print(np.min(np.array(w.vector())))
+
 
 # Save solution to file in VTK format
-# vtkfile_w = File('cmpdata/odernary.pvd')
+# vtkfile_w = File('cmpdata/new_odernary.pvd')
 # vtkfile_w << w
 
 import matplotlib.pyplot as plt

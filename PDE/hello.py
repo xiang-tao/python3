@@ -3,7 +3,6 @@ import numpy as np
 from scipy import linalg
 import matplotlib.pyplot as plt
 from matplotlib import cm
-
 """
 利用坐标变换，在极坐标下求解原方程解为u = x^2+y^2-1的拉普拉斯方程，即-delta u = -4
 """
@@ -15,8 +14,8 @@ pi = np.pi
 # 请注意r/s单位不是国际单位，应换算成弧度每秒，而一转的弧度是2*pi，故需要乘2*pi
 ww = 50.0 / 60 * 2 * pi  # ----------------------------------------晶片的角速度
 wp = 100.0 / 60 * 2 * pi  # ----------------------------------------抛光垫的角速度
-angle1 = 0.015 * pi / 180  # ---------------------------转角
-angle2 = 0.015 * pi / 180  # ---------------------------倾角
+angle1 = 0.02 * pi / 180  # ---------------------------转角
+angle2 = 0.018 * pi / 180  # ---------------------------倾角
 d = 0.15  # ---------------------------晶片和抛光垫的旋转中心距
 r0 = 5.0 * 1e-2
 p0 = 101000.0
@@ -25,9 +24,10 @@ viscosity = 0.00214  # ---------------------------抛光液粘度
 rho = 1800.0
 
 xx = r0 / hpiv
-aa = 6 * viscosity * wp / p0 * xx ** 2
+aa = 6 * viscosity * wp / p0 * xx**2
 dd = d / r0
 ee = ww / wp
+epsl = 1.0
 
 nr = 32
 n_theta = 32
@@ -52,16 +52,17 @@ print(data.shape)
 
 
 def h_function(ri, tj):
-    return 1 - xx * r_in[ri] * sin(angle1) * cos(theta_in[tj]) - xx * r_in[ri] \
+    return epsl - xx * r_in[ri] * sin(angle1) * cos(theta_in[tj]) - xx * r_in[ri] \
            * sin(angle2) * sin(theta_in[tj])
 
 
 def hhh(ri, tj):
-    return h_function(ri, tj) ** 3
+    return h_function(ri, tj)**3
 
 
 def dh_r(tj):
-    return -(xx * sin(angle1) * cos(theta_in[tj]) + xx * sin(angle2) * sin(theta_in[tj]))
+    return -(xx * sin(angle1) * cos(theta_in[tj]) +
+             xx * sin(angle2) * sin(theta_in[tj]))
 
 
 def dh_theta(ri, tj):
@@ -70,15 +71,16 @@ def dh_theta(ri, tj):
 
 
 def dhhh_r(ri, tj):
-    return 3 * h_function(ri, tj) ** 2 * dh_r(tj)
+    return 3 * h_function(ri, tj)**2 * dh_r(tj)
 
 
 def dhhh_theta(ri, tj):
-    return 3 * h_function(ri, tj) ** 2 * dh_theta(ri, tj)
+    return 3 * h_function(ri, tj)**2 * dh_theta(ri, tj)
 
 
 def c1(ri, tj):
-    return 0.5 * hhh(ri, tj) * hr + r_in[ri] * (hhh(ri, tj) + 0.5 * hr * dhhh_r(ri, tj))
+    return 0.5 * hhh(
+        ri, tj) * hr + r_in[ri] * (hhh(ri, tj) + 0.5 * hr * dhhh_r(ri, tj))
 
 
 def c2(ri, tj):
@@ -86,7 +88,8 @@ def c2(ri, tj):
 
 
 def c3(ri, tj):
-    return -0.5 * hhh(ri, tj) * hr + r_in[ri] * (hhh(ri, tj) - 0.5 * hr * dhhh_r(ri, tj))
+    return -0.5 * hhh(
+        ri, tj) * hr + r_in[ri] * (hhh(ri, tj) - 0.5 * hr * dhhh_r(ri, tj))
 
 
 def c4(ri, tj):
@@ -106,12 +109,24 @@ def f1(ri, tj):
 
 
 def f2(ri, tj):
-    return aa * (dd * cos(theta_in[tj]) + r_in[ri] - r_in[ri] * ee) * dh_theta(ri, tj)
+    return aa * (dd * cos(theta_in[tj]) + r_in[ri] + r_in[ri] * ee) * dh_theta(
+        ri, tj)
+
+
+def keshili1(ri, tj):
+    return 1000 * (-(2 * r0 * r_in[ri] * hhh(ri, tj) + 3 * r0 *
+                        r_in[ri]**2 * h_function(ri, tj)**2 * dh_r(tj)))
+
+
+def keshili2(ri, tj):
+    return 4*1000*epsl  * d * wp * (
+        cos(theta_in[tj]) * hhh(ri, tj) +
+        3 * sin(theta_in[tj]) * h_function(ri, tj)**2 * dh_theta(ri, tj))
 
 
 def duiliuf1(ri, tj):
-    return 6 * rho * r0 ** 2 * wp ** 2 / p0 * r_in[ri] * (r_in[ri] + dd
-            * cos(theta_in[tj])) * h_function(ri, tj) ** 2 * dh_r(tj)
+    return 6 * rho * r0**2 * wp**2 / p0 * r_in[ri] * (
+        r_in[ri] + dd * cos(theta_in[tj])) * h_function(ri, tj)**2 * dh_r(tj)
 
 
 def duiliuf2(ri, tj):
@@ -125,15 +140,16 @@ def duiliuf3(ri, tj):
 
 
 def duiliuf4(ri, tj):
-    return 2 * rho * r0 ** 2 * wp ** 2 * hhh(ri, tj) / p0 * (2 * r_in[ri] + dd * cos(theta_in[tj]))
+    return 2 * rho * r0**2 * wp**2 * hhh(
+        ri, tj) / p0 * (2 * r_in[ri] + dd * cos(theta_in[tj]))
 
 
 def duiliuf5(ri, tj):
-    return -2 * ee ** 2 * rho * r0 ** 2 * wp ** 2 * r_in[ri] * hhh(ri, tj) / p0
+    return -2 * ee**2 * rho * r0**2 * wp**2 * r_in[ri] * hhh(ri, tj) / p0
 
 
 def duiliuf6(ri, tj):
-    return -2 * dd * rho * r0 ** 2 * wp ** 2 / p0 * hhh(ri, tj) * cos(theta_in[tj])
+    return -2 * dd * rho * r0**2 * wp**2 / p0 * hhh(ri, tj) * cos(theta_in[tj])
 
 
 def duiliuf(ri, tj):
@@ -158,12 +174,13 @@ def sumb():
 k = 0
 for i in range(1, r_in.size):
     for j in range(theta_in.size):
-        D0[k] = c2(i, j) / hr ** 2 + c5(i, j) / r_in[i] / h_theta ** 2
-        D1[k] = -c4(i, j) / r_in[i] / h_theta ** 2
-        D_1[k] = -c6(i, j) / r_in[i] / h_theta ** 2
-        Dn[k] = -c1(i, j) / hr ** 2
-        D_n[k] = -c3(i, j) / hr ** 2
-        b[k + 1] = -f1(i, j) - f2(i, j) - duiliuf(i, j)
+        D0[k] = c2(i, j) / hr**2 + c5(i, j) / r_in[i] / h_theta**2
+        D1[k] = -c4(i, j) / r_in[i] / h_theta**2
+        D_1[k] = -c6(i, j) / r_in[i] / h_theta**2
+        Dn[k] = -c1(i, j) / hr**2
+        D_n[k] = -c3(i, j) / hr**2
+        # b[k + 1] = -f1(i, j) - f2(i, j) - duiliuf(i, j)
+        b[k + 1] = -f1(i, j) - f2(i, j) - keshili1(i, j) - keshili2(i, j)
         k += 1
 
 b[0] = sumb()
@@ -218,7 +235,8 @@ fig, ax = plt.subplots(subplot_kw=dict(projection='polar'))
 surf = ax.contourf(Y, X, data, cmap=cm.rainbow)
 fig.colorbar(surf)
 
-X1, Y1 = np.meshgrid(np.linspace(0, 1, nr + 1), np.linspace(0, 2 * pi, n_theta + 1))
+X1, Y1 = np.meshgrid(np.linspace(0, 1, nr + 1),
+                     np.linspace(0, 2 * pi, n_theta + 1))
 xx1 = X1 * np.cos(Y1)
 yy1 = X1 * np.sin(Y1)
 fig1, ax1 = plt.subplots()
@@ -229,7 +247,6 @@ xx = X * np.cos(Y)
 yy = X * np.sin(Y)
 fig2, ax2 = plt.subplots(subplot_kw={"projection": "3d"})
 surf2 = ax2.plot_surface(xx, yy, data, cmap=cm.rainbow)
-
 
 # xx = xx.transpose()
 # xx = xx.reshape(xx.shape[0] * xx.shape[1], )
